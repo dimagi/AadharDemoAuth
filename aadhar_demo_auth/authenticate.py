@@ -22,6 +22,9 @@ class AuthenticateAadharDemographicDetails(object):
         return response_ret_value == SUCCESSFUL_MATCH_RESPONSE
 
     def __unsuccessful_match__(self, response_ret_value, response_err_value):
+        # err code 100 corresponds to mismatch in Pi details which is expected
+        # in case the authenticate fails. Just checking for 'n' is not enough
+        # because the API returns 'n' in case of all error codes
         return (
             response_ret_value == UNSUCCESSFUL_MATCH_RESPONSE and
             response_err_value == UNSUCCESSFUL_MATCH_ERROR_CODDE
@@ -34,9 +37,6 @@ class AuthenticateAadharDemographicDetails(object):
         error_code = response_xml.get('err')
         if self.__successful_match__(success_response):
             return True
-        # err code 100 corresponds to mismatch in Pi details which is expected
-        # in case the authenticate fails. Just checking for 'n' is not enough
-        # because the API returns 'n' in case of all error codes
         elif self.__unsuccessful_match__(success_response, error_code):
             return False
         elif error_code:
