@@ -27,7 +27,7 @@ class DemoAuthConfig:
 
     @property
     def required_docs(self):
-        return ['private_key', 'public_cert', 'pkcs_path', 'uid_cert_path',
+        return ['private_key', 'public_cert', 'uid_cert_path',
                 'aua_cer_file', 'aua_private_key_file']
 
     def _update_docs_paths(self, cfg):
