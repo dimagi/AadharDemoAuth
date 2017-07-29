@@ -4,3 +4,7 @@ class RequiredDocumentMissing(Exception):
 
 class InvalidConfiguration(Exception):
     pass
+
+
+class AadharAuthException(Exception):
+    pass
