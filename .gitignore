@@ -12,3 +12,6 @@ build/
 .DS_Store
 .idea
 
+raw_request.xml
+signed_request.xml
+aadhar_demo_auth/fixtures/certs-copy/*
