@@ -1,7 +1,7 @@
 Aadhar Demo Auth
 ===========
 
-Aadhar Demo Auth provides the basic hook to interact with UIDAI API(1.6). It takes care of creating the request packet,
+Aadhar Demo Auth provides the basic hook to interact with UIDAI API([1.6](https://uidai.gov.in/images/FrontPageUpdates/aadhaar_authentication_api_2_0.pdf)). It takes care of creating the request packet,
 sending it to UIDAI and then parsing the response.
 One can validate Aadhar Number against demographic details only.
 
