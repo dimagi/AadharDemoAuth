@@ -86,7 +86,7 @@ class DemoAuthRequest():
         # Log the request xml for recording purpose
         # ToDo: Move it to its own dir for logging each request-response
         f = open('signed_request.xml', 'w+')
-        f.write(etree.tostring(self.request_xml_signed_root, encoding='UTF-8', xml_declaration=True))
+        f.write(etree.tostring(self.request_xml_signed_root, encoding='UTF-8', xml_declaration=True, pretty_print=True))
         f.close()
 
     def send_request(self):

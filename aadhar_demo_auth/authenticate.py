@@ -50,7 +50,7 @@ class AuthenticateAadharDemographicDetails(object):
 
     @classmethod
     def test_request(cls):
-        print 'For Successful Match:'
+        print '1. For Successful Match:'
         response = AuthenticateAadharDemographicDetails(
             "999922220078",
             {"Pi": {"name": "Kishore Shah", "lname": u"किशोर शाह", "gender": "M", "dob": "1987-05-21", "dobt": "V"}},
@@ -62,7 +62,7 @@ class AuthenticateAadharDemographicDetails(object):
         else:
             print 'Test Failed!!'
 
-        print 'For Unsuccessful Match:'
+        print '2. For Unsuccessful Match:'
         response = AuthenticateAadharDemographicDetails(
             "999922220078",
             {"Pi": {"name": "Kishore Kumar", "gender": "M", "dob": "1987-05-21", "dobt": "V"}},
@@ -73,7 +73,7 @@ class AuthenticateAadharDemographicDetails(object):
         else:
             print 'Test Failed!!'
 
-        print 'For A Failure Response:'
+        print '3. For A Failure Response:'
         try:
             print AuthenticateAadharDemographicDetails(
                 "999922220078",
