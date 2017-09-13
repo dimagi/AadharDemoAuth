@@ -11,8 +11,9 @@ from .const import (
 
 
 class AuthenticateAadharDemographicDetails(object):
-    def __init__(self, aadhar_number, demo_details, device_details, lang=None):
-        self.request = DemoAuthRequest(aadhar_number, demo_details, device_details, lang)
+    def __init__(self, aadhar_number, demo_details, device_details, lang=None, config_file_path=None):
+        self.request = DemoAuthRequest(aadhar_number, demo_details, device_details, lang,
+                                       config_file_path=config_file_path)
 
     def authenticate(self):
         response = self.request.send_request()
@@ -49,13 +50,14 @@ class AuthenticateAadharDemographicDetails(object):
             )
 
     @classmethod
-    def test_request(cls):
+    def test_request(cls, config_file_path=None):
         print '1. For Successful Match:'
         response = AuthenticateAadharDemographicDetails(
             "999922220078",
             {"Pi": {"name": "Kishore Shah", "lname": u"किशोर शाह", "gender": "M", "dob": "1987-05-21", "dobt": "V"}},
             {'ip': '127.0.0.1', 'unique_id': 'unique_id', 'lov': '110002', 'lot': 'P'},
-            'Hindi'
+            'Hindi',
+            config_file_path=config_file_path
         ).authenticate()
         if response is True:
             print 'Matched successfully.'
@@ -66,7 +68,8 @@ class AuthenticateAadharDemographicDetails(object):
         response = AuthenticateAadharDemographicDetails(
             "999922220078",
             {"Pi": {"name": "Kishore Kumar", "gender": "M", "dob": "1987-05-21", "dobt": "V"}},
-            {'ip': '127.0.0.1', 'unique_id': 'unique_id', 'lov': '110002', 'lot': 'P'}
+            {'ip': '127.0.0.1', 'unique_id': 'unique_id', 'lov': '110002', 'lot': 'P'},
+            config_file_path=config_file_path
         ).authenticate()
         if response is False:
             print 'Match failed as expected.'
@@ -78,7 +81,8 @@ class AuthenticateAadharDemographicDetails(object):
             print AuthenticateAadharDemographicDetails(
                 "999922220078",
                 {"Pi": {"name": "Kishore Shah", "gender": "M", "dob": "1987-05-32", "dobt": "V"}},
-                {'ip': '127.0.0.1', 'unique_id': 'unique_id', 'lov': '110002', 'lot': 'P'}
+                {'ip': '127.0.0.1', 'unique_id': 'unique_id', 'lov': '110002', 'lot': 'P'},
+                config_file_path=config_file_path
             ).authenticate()
             print 'Test Failed!!'
         except AadharAuthException as e:

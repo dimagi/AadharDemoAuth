@@ -9,13 +9,13 @@ from .const import LANGUAGES
 
 
 class DemoAuthRequest():
-    def __init__(self, aadhar_number, demo_details, device_details, lang):
+    def __init__(self, aadhar_number, demo_details, device_details, lang, config_file_path=None):
         self.aadhar_number = aadhar_number
         self.demo_details = demo_details
         self.device_details = device_details
         self.lang = lang
         self.lang_code = LANGUAGES.get(self.lang, '')
-        self.cfg = DemoAuthConfig().setup()
+        self.cfg = DemoAuthConfig(config_file_path=config_file_path).setup()
 
     def __setup_auth_data__(self):
         self.data = DemoAuthData(cfg=self.cfg, uid=self.aadhar_number, demo_details=self.demo_details, lang=self.lang_code)
