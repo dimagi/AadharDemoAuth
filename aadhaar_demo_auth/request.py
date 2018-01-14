@@ -69,25 +69,26 @@ class DemoAuthRequest():
         # Log the raw request xml for recording purpose
         # ToDo: Move it to its own dir for logging each request-response
         data_ready_xml_request = etree.tostring(auth_node, pretty_print=True, encoding='UTF-8', xml_declaration=True)
-        f = open('raw_request.xml', 'w+')
-        f.write(data_ready_xml_request)
-        f.close()
+        with open('raw_request.xml', 'w+') as f:
+            f.write(data_ready_xml_request)
 
     def __sign_auth_xml__(self):
         aua_cer_file = self.cfg.common.aua_cer_file
         aua_private_key_file = self.cfg.common.aua_private_key_file
 
-        cert = open(aua_cer_file).read()
-        private_key = open(aua_private_key_file).read()
+        with open(aua_cer_file) as f:
+            cert = f.read()
+        with open(aua_private_key_file) as f:
+            private_key = f.read()
         private_key_passphrase = self.cfg.common.aua_private_key_file_passphrase
 
         self.request_xml_signed_root = XMLSigner().sign(self.request_xml_root, private_key, private_key_passphrase, cert)
 
         # Log the request xml for recording purpose
         # ToDo: Move it to its own dir for logging each request-response
-        f = open('signed_request.xml', 'w+')
-        f.write(etree.tostring(self.request_xml_signed_root, encoding='UTF-8', xml_declaration=True, pretty_print=True))
-        f.close()
+        with open('signed_request.xml', 'w+') as f:
+            f.write(etree.tostring(self.request_xml_signed_root, encoding='UTF-8',
+                                   xml_declaration=True, pretty_print=True))
 
     def send_request(self):
         self.__setup_auth_data__()
