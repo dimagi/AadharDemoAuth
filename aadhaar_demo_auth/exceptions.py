@@ -6,5 +6,5 @@ class InvalidConfiguration(Exception):
     pass
 
 
-class aadhaarAuthException(Exception):
+class AadhaarAuthException(Exception):
     pass

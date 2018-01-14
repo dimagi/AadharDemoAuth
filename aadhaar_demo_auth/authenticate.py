@@ -2,7 +2,7 @@
 from lxml import etree, objectify
 
 from .request import DemoAuthRequest
-from .exceptions import aadhaarAuthException
+from .exceptions import AadhaarAuthException
 from .const import (
     SUCCESSFUL_MATCH_RESPONSE,
     UNSUCCESSFUL_MATCH_RESPONSE,
@@ -19,10 +19,12 @@ class AuthenticateAadhaarDemographicDetails(object):
         response = self.request.send_request()
         return self.__parse_response__(response)
 
-    def __successful_match__(self, response_ret_value):
+    @staticmethod
+    def __successful_match__(response_ret_value):
         return response_ret_value == SUCCESSFUL_MATCH_RESPONSE
 
-    def __unsuccessful_match__(self, response_ret_value, response_err_value):
+    @staticmethod
+    def __unsuccessful_match__(response_ret_value, response_err_value):
         # err code 100 corresponds to mismatch in Pi details which is expected
         # in case the authenticate fails. Just checking for 'n' is not enough
         # because the API returns 'n' in case of all error codes
@@ -41,11 +43,11 @@ class AuthenticateAadhaarDemographicDetails(object):
         elif self.__unsuccessful_match__(success_response, error_code):
             return False
         elif error_code:
-            raise aadhaarAuthException(
+            raise AadhaarAuthException(
                 "Got error: {error_code}".format(error_code=error_code)
             )
         else:
-            raise aadhaarAuthException(
+            raise AadhaarAuthException(
                 'Unexpected response received'
             )
 
@@ -85,5 +87,5 @@ class AuthenticateAadhaarDemographicDetails(object):
                 config_file_path=config_file_path
             ).authenticate()
             print 'Test Failed!!'
-        except aadhaarAuthException as e:
+        except AadhaarAuthException as e:
             print "Exception to be raised with error code 902. %s." % e.message
