@@ -43,7 +43,7 @@ class DemoAuthData:
     def set_skey(self):
         """
         Generate session key
-        self._skey = {
+        self.__skey = {
             '_cert_expiry': None,  # expiry time of certificate used to encrypt session key
             '_text': None,  # encrypted and encoded session key
         }
@@ -55,16 +55,16 @@ class DemoAuthData:
 
         # encrypt session key
         encrypted_session_key = encryptor.x509_encrypt(self._session_key)
-        self._skey = {'_text': base64.b64encode(encrypted_session_key)}
+        self.__skey = {'_text': base64.b64encode(encrypted_session_key)}
 
         cert_expiry = encryptor.x509_get_cert_expiry()
-        self._skey['_cert_expiry'] = datetime.strptime(cert_expiry, "%b %d %H:%M:%S %Y %Z").strftime("%Y%m%d")
+        self.__skey['_cert_expiry'] = datetime.strptime(cert_expiry, "%b %d %H:%M:%S %Y %Z").strftime("%Y%m%d")
 
     @property
     def skey(self):
         return {
-            'cert_expiry': self._skey['_cert_expiry'],
-            'text': self._skey['_text'],
+            'cert_expiry': self.__skey['_cert_expiry'],
+            'text': self.__skey['_text'],
         }
 
     def set_data(self, ts=None):
