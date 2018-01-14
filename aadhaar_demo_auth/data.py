@@ -27,7 +27,7 @@ class DemoAuthData:
         # even if we are not using the various options for authentication we still need to set
         # "n" for those in the request because they are mandatory fields.
         # We then update to "y" for the ones that we want to use.
-        self._uses = {
+        self.__uses = {
             'otp': "n",
             'pin': "n",
             'bio': "n",
@@ -38,7 +38,7 @@ class DemoAuthData:
 
     @property
     def uses(self):
-        return self._uses
+        return self.__uses
 
     def set_skey(self):
         """
@@ -152,10 +152,10 @@ class DemoAuthData:
 
         if "Pi" in demo_attributes:
             if self.set_demo_attributes(demo, "Pi", demo_attributes['Pi']):
-                self._uses['pi'] = "y"
+                self.__uses['pi'] = "y"
         if "Pa" in demo_attributes:
             if self.set_demo_attributes(demo, "Pa", demo_attributes['Pa']):
-                self._uses['pa'] = "y"
+                self.__uses['pa'] = "y"
         if "Pfa" in demo_attributes:
             if self.set_demo_attributes(demo, "Pfa", demo_attributes['Pfa']):
-                self._uses['pfa'] = "y"
+                self.__uses['pfa'] = "y"
