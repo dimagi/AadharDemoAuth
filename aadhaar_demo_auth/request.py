@@ -23,7 +23,7 @@ class DemoAuthRequest():
         self.data.set_data()
         self.data.set_hmac()
 
-    def __set_txn__(self):
+    def __get_txn__(self):
         return uuid.uuid4().hex
 
     def __setup_xml_request__(self):
@@ -35,7 +35,7 @@ class DemoAuthRequest():
                 'ac': self.cfg.common.ac,
                 'sa': self.cfg.common.sa,
                 'ver': self.cfg.common.ver,
-                'txn': self.__set_txn__(),
+                'txn': self.__get_txn__(),
                 'lk': self.cfg.common.license_key,
             }
         )
