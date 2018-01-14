@@ -2,6 +2,8 @@ import base64
 
 from M2Crypto import RSA, BIO, Rand, m2, EVP, X509
 
+from aadhaar_demo_auth.exceptions import InvalidConfiguration
+
 
 class DemoAuthEncryptor:
     """
@@ -17,6 +19,8 @@ class DemoAuthEncryptor:
         """
         UIDAI certificate expiry date
         """
+        if not self._public_key:
+            raise InvalidConfiguration("Public Key missing")
         x509 = X509.load_cert(self._public_key)
         return x509.get_not_after().__str__()
 
