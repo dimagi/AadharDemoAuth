@@ -6,7 +6,7 @@ from .exceptions import aadhaarAuthException
 from .const import (
     SUCCESSFUL_MATCH_RESPONSE,
     UNSUCCESSFUL_MATCH_RESPONSE,
-    UNSUCCESSFUL_MATCH_ERROR_CODDE,
+    UNSUCCESSFUL_MATCH_ERROR_CODE,
 )
 
 
@@ -28,7 +28,7 @@ class AuthenticateAadhaarDemographicDetails(object):
         # because the API returns 'n' in case of all error codes
         return (
             response_ret_value == UNSUCCESSFUL_MATCH_RESPONSE and
-            response_err_value == UNSUCCESSFUL_MATCH_ERROR_CODDE
+            response_err_value == UNSUCCESSFUL_MATCH_ERROR_CODE
         )
 
     def __parse_response__(self, response):
