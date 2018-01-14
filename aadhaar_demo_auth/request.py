@@ -9,8 +9,8 @@ from .const import LANGUAGES
 
 
 class DemoAuthRequest():
-    def __init__(self, aadhar_number, demo_details, device_details, lang, config_file_path=None):
-        self.aadhar_number = aadhar_number
+    def __init__(self, aadhaar_number, demo_details, device_details, lang, config_file_path=None):
+        self.aadhaar_number = aadhaar_number
         self.demo_details = demo_details
         self.device_details = device_details
         self.lang = lang
@@ -18,7 +18,7 @@ class DemoAuthRequest():
         self.cfg = DemoAuthConfig(config_file_path=config_file_path).setup()
 
     def __setup_auth_data__(self):
-        self.data = DemoAuthData(cfg=self.cfg, uid=self.aadhar_number, demo_details=self.demo_details, lang=self.lang_code)
+        self.data = DemoAuthData(cfg=self.cfg, uid=self.aadhaar_number, demo_details=self.demo_details, lang=self.lang_code)
         self.data.set_skey()
         self.data.set_data()
         self.data.set_hmac()
@@ -30,7 +30,7 @@ class DemoAuthRequest():
         auth_node = etree.Element(
             "Auth",
             {
-                'uid': self.aadhar_number,
+                'uid': self.aadhaar_number,
                 'tid': self.cfg.common.tid,
                 'ac': self.cfg.common.ac,
                 'sa': self.cfg.common.sa,
@@ -97,8 +97,8 @@ class DemoAuthRequest():
         request_content = etree.tostring(self.request_xml_signed_root, encoding='UTF-8', xml_declaration=True)
         url = "{auth_url}/{first_digit}/{second_digit}/{key}".format(
             auth_url=self.cfg.common.auth_url,
-            first_digit=self.aadhar_number[0],
-            second_digit=self.aadhar_number[1],
+            first_digit=self.aadhaar_number[0],
+            second_digit=self.aadhaar_number[1],
             key=self.cfg.common.license_key
         )
         return requests.post(

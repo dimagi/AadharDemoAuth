@@ -2,7 +2,7 @@
 from lxml import etree, objectify
 
 from .request import DemoAuthRequest
-from .exceptions import AadharAuthException
+from .exceptions import aadhaarAuthException
 from .const import (
     SUCCESSFUL_MATCH_RESPONSE,
     UNSUCCESSFUL_MATCH_RESPONSE,
@@ -10,9 +10,9 @@ from .const import (
 )
 
 
-class AuthenticateAadharDemographicDetails(object):
-    def __init__(self, aadhar_number, demo_details, device_details, lang=None, config_file_path=None):
-        self.request = DemoAuthRequest(aadhar_number, demo_details, device_details, lang,
+class AuthenticateAadhaarDemographicDetails(object):
+    def __init__(self, aadhaar_number, demo_details, device_details, lang=None, config_file_path=None):
+        self.request = DemoAuthRequest(aadhaar_number, demo_details, device_details, lang,
                                        config_file_path=config_file_path)
 
     def authenticate(self):
@@ -41,18 +41,18 @@ class AuthenticateAadharDemographicDetails(object):
         elif self.__unsuccessful_match__(success_response, error_code):
             return False
         elif error_code:
-            raise AadharAuthException(
+            raise aadhaarAuthException(
                 "Got error: {error_code}".format(error_code=error_code)
             )
         else:
-            raise AadharAuthException(
+            raise aadhaarAuthException(
                 'Unexpected response received'
             )
 
     @classmethod
     def test_request(cls, config_file_path=None):
         print '1. For Successful Match:'
-        response = AuthenticateAadharDemographicDetails(
+        response = AuthenticateAadhaarDemographicDetails(
             "999922220078",
             {"Pi": {"name": "Kishore Shah", "lname": u"किशोर शाह", "gender": "M", "dob": "1987-05-21", "dobt": "V"}},
             {'ip': '127.0.0.1', 'unique_id': 'unique_id', 'lov': '110002', 'lot': 'P'},
@@ -65,7 +65,7 @@ class AuthenticateAadharDemographicDetails(object):
             print 'Test Failed!!'
 
         print '2. For Unsuccessful Match:'
-        response = AuthenticateAadharDemographicDetails(
+        response = AuthenticateAadhaarDemographicDetails(
             "999922220078",
             {"Pi": {"name": "Kishore Kumar", "gender": "M", "dob": "1987-05-21", "dobt": "V"}},
             {'ip': '127.0.0.1', 'unique_id': 'unique_id', 'lov': '110002', 'lot': 'P'},
@@ -78,12 +78,12 @@ class AuthenticateAadharDemographicDetails(object):
 
         print '3. For A Failure Response:'
         try:
-            print AuthenticateAadharDemographicDetails(
+            print AuthenticateAadhaarDemographicDetails(
                 "999922220078",
                 {"Pi": {"name": "Kishore Shah", "gender": "M", "dob": "1987-05-32", "dobt": "V"}},
                 {'ip': '127.0.0.1', 'unique_id': 'unique_id', 'lov': '110002', 'lot': 'P'},
                 config_file_path=config_file_path
             ).authenticate()
             print 'Test Failed!!'
-        except AadharAuthException as e:
+        except aadhaarAuthException as e:
             print "Exception to be raised with error code 902. %s." % e.message

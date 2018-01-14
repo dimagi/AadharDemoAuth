@@ -1,16 +1,16 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='aadhar_demo_auth',
+    name='aadhaar_demo_auth',
     version='0.1',
-    description='Demo Auth for Aadhar Authentication',
-    url='http://github.com/dimagi/aadhar-demo-auth',
+    description='Demo Auth for aadhaar Authentication',
+    url='http://github.com/dimagi/aadhaar-demo-auth',
     author='Dimagi',
     author_email='mkangia@dimagi.com',
     packages=find_packages(exclude=['*.pyc']),
     include_package_data=True,
     package_data={
-        'aadhar_demo_auth': ['fixtures/*', 'fixtures/certs/*']
+        'aadhaar_demo_auth': ['fixtures/*', 'fixtures/certs/*']
     },
     install_requires=[
       'requests==2.10.0',

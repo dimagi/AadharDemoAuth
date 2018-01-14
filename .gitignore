@@ -14,4 +14,4 @@ build/
 
 raw_request.xml
 signed_request.xml
-aadhar_demo_auth/fixtures/certs-copy/*
+aadhaar_demo_auth/fixtures/certs-copy/*

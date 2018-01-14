@@ -1,9 +1,9 @@
-Aadhar Demo Auth
+Aadhaar Demo Auth
 ===========
 
-Aadhar Demo Auth provides the basic hook to interact with UIDAI API([1.6](https://uidai.gov.in/images/FrontPageUpdates/aadhaar_authentication_api_2_0.pdf)). It takes care of creating the request packet,
+Aadhaar Demo Auth provides the basic hook to interact with UIDAI API([1.6](https://uidai.gov.in/images/FrontPageUpdates/aadhaar_authentication_api_2_0.pdf)). It takes care of creating the request packet,
 sending it to UIDAI and then parsing the response.
-One can validate Aadhar Number against demographic details only.
+One can validate Aadhaar Number against demographic details only.
 
 ### Certificates
 There are a bunch of certificates used for creating the request package which needs to be added.
@@ -41,8 +41,8 @@ that need to be added on each request to identify the requesting client
 
 ### Example Usage:
 
-    >>> from aadhar_demo_auth.authenticate import AuthenticateAadharDemographicDetails
-    >>> AuthenticateAadharDemographicDetails(
+    >>> from aadhaar_demo_auth.authenticate import AuthenticateAadhaarDemographicDetails
+    >>> AuthenticateAadhaarDemographicDetails(
     ...             "999922220078",
     ...             {"Pi": {"name": "Kishore Shah", "lname": u"????? ???", "gender": "M", "dob": "1987-05-21", "dobt": "V"}},
     ...             {'ip': '127.0.0.1', 'unique_id': 'unique_id', 'lov': '110002', 'lot': 'P'},
@@ -54,8 +54,8 @@ that need to be added on each request to identify the requesting client
     all certs and licenses.
     Notice the change in name for result in mismatch/failure
 
-    >>> cfg_file_path = "/path/to/my/aadhar_conf.cfg"
-    >>> AuthenticateAadharDemographicDetails(
+    >>> cfg_file_path = "/path/to/my/aadhaar_conf.cfg"
+    >>> AuthenticateAadhaarDemographicDetails(
     ...             "999922220078",
     ...             {"Pi": {"name": "Kishore Kumar", "gender": "M", "dob": "1987-05-21", "dobt": "V"}},
     ...             {'ip': '127.0.0.1', 'unique_id': 'unique_id', 'lov': '110002', 'lot': 'P'},
@@ -65,7 +65,7 @@ that need to be added on each request to identify the requesting client
 
     You can also run quick check to ensure you are set up well
 
-    >>> AuthenticateAadharDemographicDetails.test_request()
+    >>> AuthenticateAadhaarDemographicDetails.test_request()
     1. For Successful Match:
     Matched successfully.
     2. For Unsuccessful Match:
@@ -75,11 +75,11 @@ that need to be added on each request to identify the requesting client
 
     Ultimately you would want to set your own configuration. The custom configuration
     need to be built on same structure as the default config file present
-    at aadhar_demo_auth/fixtures/auth.cfg. The path to your custom file can be passed to bring it into play.
+    at aadhaar_demo_auth/fixtures/auth.cfg. The path to your custom file can be passed to bring it into play.
     Please note that when adding your own config the path to certificates should be full paths and not relative to avoid surprises.
     Again a quick check to ensure you are all set.
 
-    >>> AuthenticateAadharDemographicDetails.test_request(config_file_path=cfg_file_path)
+    >>> AuthenticateAadhaarDemographicDetails.test_request(config_file_path=cfg_file_path)
     1. For Successful Match:
     Matched successfully.
     2. For Unsuccessful Match:
