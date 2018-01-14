@@ -3,6 +3,8 @@ import requests
 
 from lxml import etree
 from signxml import XMLSigner
+
+from .data_store import DataStore
 from .auth_config import DemoAuthConfig
 from .data import DemoAuthData
 from .const import LANGUAGES
@@ -16,6 +18,7 @@ class DemoAuthRequest():
         self.lang = lang
         self.lang_code = LANGUAGES.get(self.lang, '')
         self.cfg = DemoAuthConfig(config_file_path=config_file_path).setup()
+        self.__txn = None
 
     def __setup_auth_data(self):
         self.data = DemoAuthData(cfg=self.cfg, uid=self.aadhaar_number, demo_details=self.demo_details, lang=self.lang_code)
@@ -24,7 +27,9 @@ class DemoAuthRequest():
         self.data.set_hmac()
 
     def __get_txn__(self):
-        return uuid.uuid4().hex
+        if not self.__txn:
+            self.__txn = uuid.uuid4().hex
+        return self.__txn
 
     def __setup_xml_request(self):
         auth_node = etree.Element(
@@ -66,11 +71,8 @@ class DemoAuthRequest():
         hmac_node.text = self.data.hmac
         self.request_xml_root = auth_node
 
-        # Log the raw request xml for recording purpose
-        # ToDo: Move it to its own dir for logging each request-response
-        data_ready_xml_request = etree.tostring(auth_node, pretty_print=True, encoding='UTF-8', xml_declaration=True)
-        with open('raw_request.xml', 'w+') as f:
-            f.write(data_ready_xml_request)
+        DataStore(self.aadhaar_number, self.__get_txn__(), self.cfg).store_raw_request(
+                  auth_node)
 
     def __sign_auth_xml(self):
         aua_cer_file = self.cfg.common.aua_cer_file
@@ -84,11 +86,8 @@ class DemoAuthRequest():
 
         self.request_xml_signed_root = XMLSigner().sign(self.request_xml_root, private_key, private_key_passphrase, cert)
 
-        # Log the request xml for recording purpose
-        # ToDo: Move it to its own dir for logging each request-response
-        with open('signed_request.xml', 'w+') as f:
-            f.write(etree.tostring(self.request_xml_signed_root, encoding='UTF-8',
-                                   xml_declaration=True, pretty_print=True))
+        DataStore(self.aadhaar_number, self.__get_txn__(), self.cfg).store_signed_request(
+                  self.request_xml_signed_root)
 
     def send_request(self):
         self.__setup_auth_data()
@@ -102,7 +101,10 @@ class DemoAuthRequest():
             second_digit=self.aadhaar_number[1],
             key=self.cfg.common.license_key
         )
-        return requests.post(
+        response = requests.post(
             url,
             request_content
         )
+        DataStore(self.aadhaar_number, self.__get_txn__(), self.cfg).store_response(
+                  response.content)
+        return response
