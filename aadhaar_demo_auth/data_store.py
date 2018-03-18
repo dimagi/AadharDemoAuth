@@ -1,4 +1,5 @@
 import os
+import logging
 from lxml import etree
 
 
@@ -37,17 +38,19 @@ class DataStore:
 
     def store_raw_request(self, root_node):
         self.ensure_dir()
-        with open(self.raw_request_file(), 'w+') as f:
-            f.write(etree.tostring(root_node, encoding='UTF-8',
-                                   xml_declaration=True, pretty_print=True))
+        logging.basicConfig(filename=self.raw_request_file(), level=logging.DEBUG)
+        logging.info(etree.tostring(
+            root_node, encoding='UTF-8',
+            xml_declaration=True, pretty_print=True))
 
     def store_signed_request(self, root_node):
         self.ensure_dir()
-        with open(self.signed_request_file(), 'w+') as f:
-            f.write(etree.tostring(root_node, encoding='UTF-8',
-                                   xml_declaration=True, pretty_print=True))
+        logging.basicConfig(filename=self.signed_request_file(), level=logging.DEBUG)
+        logging.info(etree.tostring(
+            root_node, encoding='UTF-8',
+            xml_declaration=True, pretty_print=True))
 
     def store_response(self, xml_content):
         self.ensure_dir()
-        with open(self.signed_request_file(), 'w+') as f:
-            f.write(xml_content)
+        logging.basicConfig(filename=self.response_file(), level=logging.DEBUG)
+        logging.info(xml_content)
