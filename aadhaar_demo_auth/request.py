@@ -20,7 +20,7 @@ class DemoAuthRequest():
         self.cfg = DemoAuthConfig(config_file_path=config_file_path).setup()
         self.__txn = None
 
-    def __setup_auth_data(self):
+    def _setup_auth_data(self):
         self.data = DemoAuthData(cfg=self.cfg, uid=self.aadhaar_number, demo_details=self.demo_details, lang=self.lang_code)
         self.data.set_skey()
         self.data.set_data()
@@ -31,7 +31,7 @@ class DemoAuthRequest():
             self.__txn = uuid.uuid4().hex
         return self.__txn
 
-    def __setup_xml_request(self):
+    def _setup_xml_request(self):
         auth_node = etree.Element(
             "Auth",
             {
@@ -74,7 +74,7 @@ class DemoAuthRequest():
         DataStore(self.aadhaar_number, self.__get_txn__(), self.cfg).store_raw_request(
                   auth_node)
 
-    def __sign_auth_xml(self):
+    def _sign_auth_xml(self):
         aua_cer_file = self.cfg.common.aua_cer_file
         aua_private_key_file = self.cfg.common.aua_private_key_file
 
@@ -90,9 +90,9 @@ class DemoAuthRequest():
                   self.request_xml_signed_root)
 
     def send_request(self):
-        self.__setup_auth_data()
-        self.__setup_xml_request()
-        self.__sign_auth_xml()
+        self._setup_auth_data()
+        self._setup_xml_request()
+        self._sign_auth_xml()
 
         request_content = etree.tostring(self.request_xml_signed_root, encoding='UTF-8', xml_declaration=True)
         url = "{auth_url}/{first_digit}/{second_digit}/{key}".format(
